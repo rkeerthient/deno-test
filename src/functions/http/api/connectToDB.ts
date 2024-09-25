@@ -1,4 +1,4 @@
-import { MongoClient } from "https://deno.land/x/mongo@v0.33.0/mod.ts";
+import { MongoClient, Bson } from "https://deno.land/x/mongo@v0.33.0/mod.ts";
 const connectToDB = async () => {
   console.log(`1enerterd`);
 
