@@ -10,9 +10,7 @@ import {
   TemplateConfig,
   TemplateRenderProps,
 } from "@yext/pages";
-import { ExternalImage } from "../types/ExternalImage";
 import { useState, useEffect } from "react";
-import { Post } from "../types/Post";
 
 export const config: TemplateConfig = {
   name: "turtlehead-tacos",
@@ -41,12 +39,12 @@ export const getHeadConfig: GetHeadConfig<
 };
 
 const Static: Template<TemplateRenderProps> = ({ document }) => {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [isConnected, setIsConnected] = useState<boolean>();
 
   useEffect(() => {
     fetch("/api/connectToDB")
       .then((response) => response.json())
-      .then((json) => setPosts(json as Post[]));
+      .then((json) => setIsConnected(true));
   }, []);
   return (
     <>
@@ -55,30 +53,16 @@ const Static: Template<TemplateRenderProps> = ({ document }) => {
           <div className="mx-auto max-w-2xl">
             <div className="flex justify-between">
               <div>
-                <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                  Posts
-                </h2>
-                <p className="mt-2 text-lg leading-8 text-gray-600">
-                  Most recent posts from the blog.
-                </p>
+                {isConnected ? (
+                  <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                    Connected Succesfully
+                  </h2>
+                ) : (
+                  <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                    Not Connected
+                  </h2>
+                )}
               </div>
-            </div>
-            <div className="mt-10 space-y-12 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16">
-              {posts?.map((post) => (
-                <article
-                  key={post.id}
-                  className="flex max-w-xl flex-col items-start justify-between"
-                >
-                  <div className="group relative">
-                    <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                      {post.title}
-                    </h3>
-                    <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
-                      {post.body}
-                    </p>
-                  </div>
-                </article>
-              ))}
             </div>
           </div>
         </div>
