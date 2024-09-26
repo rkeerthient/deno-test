@@ -7,4 +7,9 @@ export default defineConfig({
   ssr: {
     platform: "node",
   },
+  build: {
+    rollupOptions: {
+      external: ["ssh2-sftp-client"],
+    },
+  },
 });
